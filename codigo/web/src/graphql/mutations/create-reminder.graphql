@@ -1,0 +1,8 @@
+mutation CreateReminder($input: CreateReminderInput!) {
+  createReminder(data: $input) {
+    id
+    userId
+    description
+    datetime
+  }
+}

@@ -1,0 +1,57 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:12.9
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: mindminder-pqsl-dev
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    restart: always
+
+  nest-api:
+    container_name: nest-api
+    image: nest-api
+    build: ./service
+    ports:
+      - 3333:3333
+    volumes:
+      - ./service:/usr/src/app/service
+      - /usr/src/app/service/node_modules
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    healthcheck:
+      test: nc -z localhost 3333
+
+  socket:
+    container_name: socket
+    image: socket
+    build: ./socket
+    ports:
+      - 3335:3335
+    volumes:
+      - ./socket:/usr/src/app/socket
+      - /usr/src/app/socket/node_modules
+    links:
+      - nest-api
+    depends_on:
+      - nest-api
+    restart: always
+
+  nextjs-ui:
+    build: ./web
+    ports:
+      - 3000:3000
+    container_name: nextjs-ui
+    stdin_open: true
+    volumes:
+      - ./web:/usr/src/app/web
+      - /usr/src/app/web/node_modules
+
+volumes:
+  database-data:

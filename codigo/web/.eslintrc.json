@@ -1,0 +1,14 @@
+{
+  "plugins": ["@typescript-eslint", "react"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "@rocketseat/eslint-config/react"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "prefer-const": "off" // Turn rule off
+  }
+}
