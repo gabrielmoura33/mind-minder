@@ -42,7 +42,7 @@ Passos para instalação
 1. Clone este repositório:
 ```bash 
     git clone https://github.com/gabrielmoura33/MindMinder.git
-    cd MindMinder
+    cd MindMinder/codigo
 ```
 
 2. Execute o container
