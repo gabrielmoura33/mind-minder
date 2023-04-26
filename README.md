@@ -23,7 +23,7 @@ MindMinder é um aplicativo da web projetado para ajudar os usuários a gerencia
 ## 🚀 Recursos
 - Adicione lembretes com data e descrição
 - Receba notificações em tempo real com Socket.io
-- Interface amigável e responsiva
+- Interface amigável
 - Gerenciamento eficiente de lembretes
 
 ## 🛠️ Tecnologias utilizadas
