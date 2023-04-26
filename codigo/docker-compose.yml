@@ -11,6 +11,8 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - nestjs_prisma_network
 
   nest-api:
     container_name: nest-api
@@ -27,6 +29,10 @@ services:
       - postgres
     healthcheck:
       test: nc -z localhost 3333
+    environment:
+      - DATABASE_URL=postgresql://docker:docker@postgres:5432/mindminder-pqsl-dev
+    networks:
+      - nestjs_prisma_network
 
   socket:
     container_name: socket
@@ -42,6 +48,8 @@ services:
     depends_on:
       - nest-api
     restart: always
+    networks:
+      - nestjs_prisma_network
 
   nextjs-ui:
     build: ./web
@@ -55,3 +63,7 @@ services:
 
 volumes:
   database-data:
+
+networks:
+  nestjs_prisma_network:
+    driver: bridge

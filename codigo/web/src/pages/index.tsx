@@ -16,6 +16,7 @@ import {isBefore, parseISO} from 'date-fns';
 import { useEffect } from 'react';
 import { socket } from '../lib/socket';
 import toast from '../components/Toast';
+import moment from 'moment-timezone';
 interface IReminderProps {
   description: string;
   datetime: string;
@@ -32,19 +33,26 @@ function Home() {
   const { user } = useAuth()
   const { data, loading, refetch } = useGetRemindersQuery({
     variables: {
-      userId: user?.id
+      filters: {
+        userId: user?.id
+      }
     }
   })
   const [createReminder] = useCreateReminderMutation()
   const [deleteReminder] = useDeleteReminderMutation()
   const reminders = data?.reminders || []
   async function handleCreateReminder(data: IReminderProps) {
+    if(!data.datetime || !data.description) {
+      toast({ type: 'error', message: 'Preencha todos os campos' })
+      return;
+    }
+
     try {
       await createReminder({
         variables: {
           input: {
             description: data.description,
-            datetime: data.datetime,
+            datetime: moment(data.datetime).tz('America/Sao_Paulo').format(),
             userId: user?.id
           }
         }
@@ -60,9 +68,11 @@ function Home() {
   async function handleSearchReminder(data: IReminderProps) {
     try {
       refetch({
-        datetime: data.datetime,
-        description: data.description,
-        userId: user.id
+        filters: {
+          datetime: data.datetime ? moment(data.datetime).tz('America/Sao_Paulo').format(): null,
+          description: data.description,
+          userId: user.id
+        }
       });
     } catch (error) {
       console.log(error)

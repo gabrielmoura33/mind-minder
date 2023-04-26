@@ -1,9 +1,5 @@
-query GetReminders($datetime: String, $description: String, $userId: String) {
-  reminders(filters: {
-    datetime: $datetime,
-    description: $description,
-    userId: $userId
-  }) {
+query GetReminders($filters: GetRemindersInput!) {
+  reminders(filters: $filters) {
     id,
     datetime,
     description,

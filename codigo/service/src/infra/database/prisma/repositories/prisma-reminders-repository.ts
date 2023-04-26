@@ -44,6 +44,7 @@ export class PrismaRemindersRepository implements RemindersRepository {
         description: {
           contains: query.description,
         },
+        datetime: query.datetime
       }
     })
 

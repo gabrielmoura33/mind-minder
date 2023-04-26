@@ -55,6 +55,7 @@ function broadCastToRoom(room: string, message: string) {
 async function getRemindersToBeSentInTheNextMinute() {
   const prisma = new PrismaClient();
   
+  
   const reminders = await prisma.reminder.findMany({
     where: {
       datetime: {
@@ -64,7 +65,7 @@ async function getRemindersToBeSentInTheNextMinute() {
     }
   });
 
-  console.log(reminders);
+  console.log('>>>',reminders);
   return reminders;
 }
 (async () => {  
@@ -72,6 +73,7 @@ async function getRemindersToBeSentInTheNextMinute() {
   server.listen(PORT, () => console.log(`[SOCKET] Server is running on port ${PORT} `));
 
   const EVERY_MINUTE = '* * * * *';
+  
   cron.schedule(EVERY_MINUTE, async () => {
     const reminders = await getRemindersToBeSentInTheNextMinute();
     sendRemindersToClient(reminders);

@@ -14,5 +14,5 @@ export class CreateReminderInput {
 
   @IsNotEmpty()
   @Field()
-  datetime: string
+  datetime: Date
 }

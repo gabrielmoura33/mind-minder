@@ -13,6 +13,6 @@ export class GetRemindersInput {
   description: string
 
   
-  @Field({nullable: true})
-  datetime: string
+  @Field({ nullable: true })
+  datetime: Date
 }

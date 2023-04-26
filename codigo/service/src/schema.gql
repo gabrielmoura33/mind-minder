@@ -32,7 +32,7 @@ type Query {
 input GetRemindersInput {
   userId: String
   description: String
-  datetime: String
+  datetime: DateTime
 }
 
 type Mutation {
@@ -43,5 +43,5 @@ type Mutation {
 input CreateReminderInput {
   userId: String!
   description: String!
-  datetime: String!
+  datetime: DateTime!
 }

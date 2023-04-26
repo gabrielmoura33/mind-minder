@@ -18,13 +18,13 @@ export type Scalars = {
 };
 
 export type CreateReminderInput = {
-  datetime: Scalars['String'];
+  datetime: Scalars['DateTime'];
   description: Scalars['String'];
   userId: Scalars['String'];
 };
 
 export type GetRemindersInput = {
-  datetime?: InputMaybe<Scalars['String']>;
+  datetime?: InputMaybe<Scalars['DateTime']>;
   description?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -86,9 +86,7 @@ export type DeleteReminderMutationVariables = Exact<{
 export type DeleteReminderMutation = { __typename?: 'Mutation', deleteReminder: boolean };
 
 export type GetRemindersQueryVariables = Exact<{
-  datetime?: InputMaybe<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
+  filters: GetRemindersInput;
 }>;
 
 
@@ -163,10 +161,8 @@ export type DeleteReminderMutationHookResult = ReturnType<typeof useDeleteRemind
 export type DeleteReminderMutationResult = Apollo.MutationResult<DeleteReminderMutation>;
 export type DeleteReminderMutationOptions = Apollo.BaseMutationOptions<DeleteReminderMutation, DeleteReminderMutationVariables>;
 export const GetRemindersDocument = gql`
-    query GetReminders($datetime: String, $description: String, $userId: String) {
-  reminders(
-    filters: {datetime: $datetime, description: $description, userId: $userId}
-  ) {
+    query GetReminders($filters: GetRemindersInput!) {
+  reminders(filters: $filters) {
     id
     datetime
     description
@@ -188,13 +184,11 @@ export const GetRemindersDocument = gql`
  * @example
  * const { data, loading, error } = useGetRemindersQuery({
  *   variables: {
- *      datetime: // value for 'datetime'
- *      description: // value for 'description'
- *      userId: // value for 'userId'
+ *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetRemindersQuery(baseOptions?: Apollo.QueryHookOptions<GetRemindersQuery, GetRemindersQueryVariables>) {
+export function useGetRemindersQuery(baseOptions: Apollo.QueryHookOptions<GetRemindersQuery, GetRemindersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetRemindersQuery, GetRemindersQueryVariables>(GetRemindersDocument, options);
       }
